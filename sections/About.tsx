@@ -11,8 +11,8 @@ export default function About() {
   });
 
   const smooth = useSpring(scrollYProgress, { stiffness: 60, damping: 18 });
-  const topTextY       = useTransform(smooth, [0, 0.5], [130, 0]);
-  const topTextOpacity = useTransform(smooth, [0, 0.4], [0, 1]);
+  const topTextY       = useTransform(smooth, [0, 0.45], [200, 0]);
+  const topTextOpacity = useTransform(smooth, [0, 0.35], [0, 1]);
   const bottomY = useTransform(smooth, [0.2, 0.8], [60, -10]);
 
   return (

@@ -5,31 +5,25 @@ import { motion, useScroll, useTransform, useSpring } from "motion/react";
 const rooms = [
   {
     label: "Bed",
-    img: "/room_bed.jpg",
-    yOffset: 32,
-    width: 380,
-    height: 380,
+    video: "/v1.mp4",
+    yOffset: -31,
+    width: 440,
+    height: 490,
   },
   {
     label: "Luxury Smoking Room\nfor Men",
-    img: "/room_smoking.jpg",
+    video: "/v2.mp4",
     yOffset: -24,
     width: 440,
-    height: 460,
+    height: 490,
   },
   {
     label: "Wooden Cabin\nBathroom",
-    img: "/room_cabin.jpg",
-    yOffset: 48,
-    width: 380,
-    height: 380,
+    video: "/v3.mp4",
+    yOffset: -24,
+    width: 440,
+    height: 490,
   },
-];
-
-const gradients = [
-  "linear-gradient(135deg, #2a1f14, #1a1208)",
-  "linear-gradient(135deg, #0d1a14, #0a1510)",
-  "linear-gradient(135deg, #1a1408, #2a1e0a)",
 ];
 
 export default function Showcase() {
@@ -91,7 +85,7 @@ export default function Showcase() {
             transition={{ duration: 0.8, delay: i * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <motion.div
-              className="relative overflow-hidden rounded-xl cursor-pointer"
+              className="relative overflow-hidden cursor-pointer"
               style={{
                 width: room.width,
                 height: room.height,
@@ -100,21 +94,25 @@ export default function Showcase() {
               whileHover={{ scale: 1.03 }}
               transition={{ type: "spring", stiffness: 200, damping: 22 }}
             >
-              <motion.div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url('${room.img}')`,
-                  background: room.img ? undefined : gradients[i],
-                }}
-                whileHover={{ scale: 1.07 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+              {/* Video fills the card */}
+              <video
+                src={room.video}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
               />
+
+              {/* Bottom gradient overlay */}
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background: "linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%)",
                 }}
               />
+
+              {/* Hover shimmer */}
               <motion.div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -125,6 +123,7 @@ export default function Showcase() {
                 transition={{ duration: 0.4 }}
               />
             </motion.div>
+
             <motion.p
               className="font-dm text-xs text-white/50 leading-snug pl-1"
               style={{ whiteSpace: "pre-line" }}

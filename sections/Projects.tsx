@@ -6,33 +6,41 @@ const services = [
   {
     title: "Interior Design",
     desc: "Project description",
-    img: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=800&auto=format&fit=crop",
+    img: "p1.jpg",
   },
   {
     title: "Space Planning",
     desc: "Project description",
-    img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=800&auto=format&fit=crop",
+    img: "p2.jpg",
   },
   {
     title: "Furniture Styling",
     desc: "Project description",
-    img: "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=800&auto=format&fit=crop",
+    img: "p3.jpg",
   },
   {
     title: "Consultation",
     desc: "Project description",
-    img: "https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?q=80&w=800&auto=format&fit=crop",
+    img: "p4.jpg",
   },
+  {
+    title: "Entreprenuer",
+    desc: "Project description",
+    img: "p2.jpg",
+  },
+ 
+  
 ];
 
-const ROW_HEIGHT = 80;
-const ROW_GAP = 40;
+const ROW_HEIGHT = 100;
 
 export default function Projects() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [lastIndex, setLastIndex] = useState(0);
 
-  const activeIndex = hoveredIndex !== null ? hoveredIndex : 0;
+  // Never resets to 0 — stays on last hovered
+  const activeIndex = hoveredIndex !== null ? hoveredIndex : lastIndex;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -55,11 +63,12 @@ export default function Projects() {
       ref={sectionRef}
       className="relative w-full bg-black px-12 pt-34 pb-24 min-h-[90vh]"
     >
+      {/* Hover highlight — no gap so it tracks perfectly */}
       {hoveredIndex !== null && (
         <div
-          className="absolute left-0 right-0 pointer-events-none transition-all duration-500 ease-out"
+          className="absolute left-0 right-0 pointer-events-none transition-all duration-300 ease-out"
           style={{
-            top: `calc(8.5rem + ${hoveredIndex * (ROW_HEIGHT + ROW_GAP)}px)`,
+            top: `calc(8.5rem + ${hoveredIndex * ROW_HEIGHT}px)`,
             height: ROW_HEIGHT,
             background: "rgba(255,255,255,0.03)",
             border: "1px solid rgba(255,255,255,0.06)",
@@ -68,13 +77,14 @@ export default function Projects() {
         />
       )}
 
-      <div className="relative z-10 flex flex-col gap-10">
+      {/* Rows — no gap, seamless */}
+      <div className="relative z-10 flex flex-col">
         {services.map((s, i) => (
           <motion.div
             key={s.title}
-            className="flex items-center justify-between cursor-pointer w-full group"
+            className="flex items-center justify-between cursor-pointer w-full"
             style={{ height: ROW_HEIGHT }}
-            onMouseEnter={() => setHoveredIndex(i)}
+            onMouseEnter={() => { setHoveredIndex(i); setLastIndex(i); }}
             onMouseLeave={() => setHoveredIndex(null)}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -101,18 +111,21 @@ export default function Projects() {
                 color: hoveredIndex === i ? "black" : "white",
               }}
               whileHover={{ scale: 1.1 }}
-            />
+            >
+              ↗
+            </motion.button>
           </motion.div>
         ))}
       </div>
 
+      {/* Image card */}
       <div
         className="absolute inset-0 flex justify-end items-start pointer-events-none"
         style={{ paddingTop: "8.5rem", paddingRight: "14rem" }}
       >
         <div className="sticky top-[25vh] pointer-events-auto" style={{ zIndex: 20 }}>
           <motion.div
-            className="overflow-hidden rounded-2xl relative shadow-2xl bg-[#0d0d0d]"
+            className="overflow-hidden relative shadow-2xl bg-[#0d0d0d]"
             style={{
               width: 340,
               height: 440,
@@ -120,6 +133,7 @@ export default function Projects() {
               rotate: imageRotate,
               scale: imageScale,
               border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: "0px",
             }}
           >
             {services.map((s, i) => (

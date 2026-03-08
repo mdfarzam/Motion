@@ -70,7 +70,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative w-full min-h-screen bg-black overflow-hidden flex items-center px-12 py-24 gap-12"
+      className="relative w-full min-h-screen bg-black overflow-hidden flex items-stretch px-12 py-24 gap-12"
     >
       <div
         className="absolute inset-0 pointer-events-none"
@@ -81,11 +81,11 @@ export default function Contact() {
         }}
       />
 
+      {/* LEFT — image, stretches to full section height */}
       <motion.div
-        className="relative flex-shrink-0 rounded-2xl overflow-hidden"
+        className="relative flex-shrink-0 overflow-hidden"
         style={{
           width: 440,
-          minHeight: 480,
           alignSelf: "stretch",
           y: imageY,
           border: "1px solid rgba(255,255,255,0.07)",
@@ -97,7 +97,7 @@ export default function Contact() {
       >
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/contact_room.jpg')" }}
+          style={{ backgroundImage: "url('/contact.jpg')" }}
         />
         <div
           className="absolute inset-0 -z-10"
@@ -122,113 +122,81 @@ export default function Contact() {
         </div>
       </motion.div>
 
+      {/* RIGHT — same height as image, heading top + footer bottom */}
       <motion.div
-        className="flex-1 flex justify-end"
-        style={{ y: formY, opacity: formOpacity }}
+        className="flex-1 flex flex-col justify-between"
+        style={{ y: formY, opacity: formOpacity, alignSelf: "stretch" }}
       >
-        <div className="flex flex-col w-full">
-          <motion.div
-            className="mb-10"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        {/* TOP — heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <h2 className="font-dm text-4xl md:text-5xl font-light text-white leading-tight mb-3">
+            Get in contact,
+            <br />
+            <span className="font-semibold">Achieve perfection</span>
+          </h2>
+          <p className="font-dm text-xs text-white/35 max-w-sm leading-relaxed">
+            Let&apos;s bring your ideas to life. Reach out to discuss your project or request
+            a consultation today.
+          </p>
+        </motion.div>
+
+        {/* MIDDLE — form fields */}
+        <motion.form
+          onSubmit={(e) => e.preventDefault()}
+          className="flex flex-col gap-0 flex-1 justify-center py-6"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, delay: 0.15 }}
+        >
+          <div className="flex gap-6">
+            <Field label="First Name" name="firstName" id="contact-firstName" autoComplete="given-name" />
+            <Field label="Last Name" name="lastName" id="contact-lastName" autoComplete="family-name" />
+          </div>
+          <div className="flex gap-6">
+            <Field label="Phone Number" name="phone" id="contact-phone" type="tel" autoComplete="tel" />
+            <Field label="Email" name="email" id="contact-email" type="email" autoComplete="email" />
+          </div>
+          <Field label="Your Message" name="message" id="contact-message" textarea />
+
+          <motion.button
+            type="submit"
+            className="font-dm mt-6 w-full py-4 text-xs tracking-widest uppercase text-black font-medium transition-all duration-300"
+            style={{ background: "rgba(255,255,255,0.92)" }}
+            whileHover={{ background: "rgba(255,255,255,1)", scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ duration: 0.2 }}
           >
-            <h2 className="font-dm text-4xl md:text-5xl font-light text-white leading-tight mb-3">
-              Get in contact,
-              <br />
-              <span className="font-semibold">Achieve perfection</span>
-            </h2>
-            <p className="font-dm text-xs text-white/35 max-w-sm leading-relaxed">
-              Let&apos;s bring your ideas to life. Reach out to discuss your project or request
-              a consultation today.
-            </p>
-          </motion.div>
+            Submit
+          </motion.button>
+        </motion.form>
 
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="flex flex-col gap-0"
+        {/* BOTTOM — footer logo, aligned with image bottom */}
+        <motion.div
+          className="flex justify-end items-center gap-2"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <span className="font-dm text-[10px] tracking-widest uppercase text-white/30">
+            Interitual
+          </span>
+          <div
+            className="w-5 h-5 rounded-full flex items-center justify-center text-white/40 text-[10px]"
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.1)",
+            }}
           >
-            <motion.div
-              className="flex flex-col gap-0"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.8, delay: 0.15 }}
-            >
-              <div className="flex gap-6 mb-0">
-                <Field
-                  label="First Name"
-                  name="firstName"
-                  id="contact-firstName"
-                  autoComplete="given-name"
-                />
-                <Field
-                  label="Last Name"
-                  name="lastName"
-                  id="contact-lastName"
-                  autoComplete="family-name"
-                />
-              </div>
-
-              <div className="flex gap-6">
-                <Field
-                  label="Phone Number"
-                  name="phone"
-                  id="contact-phone"
-                  type="tel"
-                  autoComplete="tel"
-                />
-                <Field
-                  label="Email"
-                  name="email"
-                  id="contact-email"
-                  type="email"
-                  autoComplete="email"
-                />
-              </div>
-
-              <Field
-                label="Your Message"
-                name="message"
-                id="contact-message"
-                textarea
-              />
-
-              <motion.button
-                type="submit"
-                className="font-dm mt-6 w-full py-4 text-xs tracking-widest uppercase text-black font-medium transition-all duration-300"
-                style={{ background: "rgba(255,255,255,0.92)" }}
-                whileHover={{ background: "rgba(255,255,255,1)", scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                transition={{ duration: 0.2 }}
-              >
-                Submit
-              </motion.button>
-            </motion.div>
-          </form>
-
-          <motion.div
-            className="flex justify-end mt-6 items-center gap-2"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <span className="font-dm text-[10px] tracking-widest uppercase text-white/30">
-              Interitual
-            </span>
-            <div
-              className="w-5 h-5 rounded-full flex items-center justify-center text-white/40 text-[10px]"
-              style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
-              }}
-            >
-              ↗
-            </div>
-          </motion.div>
-        </div>
+            ↗
+          </div>
+        </motion.div>
       </motion.div>
     </section>
   );
