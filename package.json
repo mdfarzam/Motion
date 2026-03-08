@@ -6,9 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint",
+    "lint:eslint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "lenis": "^1.3.18",
+    "motion": "^12.35.1",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3"
